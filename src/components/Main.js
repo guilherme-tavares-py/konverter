@@ -1,99 +1,114 @@
 import React from 'react'
-const api_url = "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,USD-EUR";
-
-let dolarBrl;
-let eurBrl;
-let dolEur;
 
 
-let inputValue = document.getElementById("value")
-let result = document.getElementById("result")
+class Main extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        first_choice: 'real',
+        second_choice: 'dolar',
+        dolar: 0,
+        euro: 0,
+        real: 1,
+        inputUser: 0,
+        display: 0
+      };
 
-let optionInput = document.getElementById("optionInput")
-let optionOutput = document.getElementById("optionOutput")
+      this.handleText = this.handleText.bind(this);
+      this.firstChoice = this.firstChoice.bind(this);
+      this.secondChoice = this.secondChoice.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+    componentDidMount() {
+      const api_url = "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL"
+      fetch(api_url)
+      .then((response) => response.json())
+      .then((result) => {
+        this.setState({dolar: result["USDBRL"]["bid"], euro: result["EURBRL"]["bid"]})
+      })
+    }
+  
+    firstChoice(event) {
+      this.setState({
+        first_choice: event.target.value
+      });
+    }
+    secondChoice(event) {
+      this.setState({
+        second_choice: event.target.value
+      });
+    }
 
-
-async function getapi() {
+    handleText(text) {
+      const val = text.target.value;
+      this.setState({
+        inputUser: val
+      });
+    }
     
-    const response = await fetch(api_url);
-    let data = await response.json();
-    
-    setValues(data);
-}
+    handleSubmit(event) {
+      //alert(this.state.first_choice)
+      //alert(this.state.second_choice)
+      if (this.state.first_choice === "real") {
 
-getapi()
+        if (this.state.second_choice === "dolar") {
+          this.setState({display: this.state.inputUser / this.state.dolar});
+        } else if (this.state.second_choice === "euro") {
+          this.setState({display: this.state.inputUser / this.state.euro});
+        } else if (this.state.second_choice === "real") {
+          this.setState({display: this.state.inputUser});
+        }
+      } else if (this.state.first_choice === "dolar") {
+        if (this.state.second_choice === "real") {
+          this.setState({display: this.state.inputUser * this.state.dolar});
+        } else if (this.state.second_choice === "euro") {
+          this.setState({display: this.state.inputUser * this.state.dolar / this.state.euro});
+        } else if (this.state.second_choice === "dolar") {
+          this.setState({display: this.state.inputUser});
+        }
+      } else if (this.state.first_choice === "euro") {
+        if (this.state.second_choice === "real") {
+          this.setState({display: this.state.inputUser * this.state.euro});
+        } else if (this.state.second_choice === "dolar") {
+          this.setState({display: this.state.inputUser * this.state.euro / this.state.dolar});
+        } else if (this.state.second_choice === "euro") {
+          this.setState({display: this.state.inputUser});
+        }
+      }
 
-function setValues(data) {
-    dolarBrl = data["USDBRL"]["bid"]
-    eurBrl = data["EURBRL"]["bid"]
-    dolEur = data["USDEUR"]["bid"]
-}
-
-function Converter() {
-    if (optionInput.options[optionInput.selectedIndex].value === optionOutput.options[optionOutput.selectedIndex].value) {
-        result.value = inputValue.value
-    }
-    else if (optionInput.options[optionInput.selectedIndex].value === "real") {
-        if (optionOutput.options[optionOutput.selectedIndex].value === "dolar") {
-            result.value = inputValue.value / dolarBrl
-        }
-        else if (optionOutput.options[optionOutput.selectedIndex].value === "euro") {
-            result.value = inputValue.value / eurBrl
-        }
-    }
-
-    else if (optionInput.options[optionInput.selectedIndex].value === "dolar") {
-        if (optionOutput.options[optionOutput.selectedIndex].value === "real") {
-            result.value = inputValue.value * dolarBrl
-        }
-        else if (optionOutput.options[optionOutput.selectedIndex].value === "euro") {
-            result.value = inputValue.value * dolEur
-        }
-    }
-
-    else if (optionInput.options[optionInput.selectedIndex].value === "euro") {
-        if (optionOutput.options[optionOutput.selectedIndex].value === "real") {
-            result.value = inputValue.value * eurBrl
-        }
-        else if (optionOutput.options[optionOutput.selectedIndex].value === "dolar") {
-            result.value = inputValue.value / dolEur
-        }
+      // this.setState({display: this.state.inputUser * this.state.euro}); // -- result problably will be like this
+      event.preventDefault();
     }
 
 
-}
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          
+          <label>
 
-function reset() {
-    result.value = null
-    inputValue.value = null
-}
+            <select value={this.state.first_choice} onChange={this.firstChoice}>
+              <option value="real">Real</option>
+              <option value="euro">Euro</option>
+              <option value="dolar">Dólar</option>
+            </select>
 
+            <input type="text" value={this.state.inputUser} onChange={text => this.handleText(text)}/>
+            
+            <select value={this.state.second_choice} onChange={this.secondChoice}>
+              <option value="real">Real</option>
+              <option value="euro">Euro</option>
+              <option value="dolar">Dólar</option>
+            </select>
 
-export default function Main() {
-    return(
-        <main>
-            <div id="display">
-                <div>
-                    <select id="optionInput">
-                        <option value="real" selected>Real</option>
-                        <option value="dolar">Dólar</option>
-                        <option value="euro">Euro</option>
-                    </select>
-                    <input id="value" placeholder='Quantity to convert' type="text"/>
-                    <button onClick={Converter}>Go</button>
-                    
-                </div>
-                <div>
-                    <select id="optionOutput">
-                        <option value="real">Real</option>
-                        <option value="dolar">Dólar</option>
-                        <option value="euro">Euro</option>
-                    </select>
-                    <input id="result" type="text"/>
-                    <button onClick={reset}>Reset</button>
-                </div>
-            </div>
-        </main>
-    );
-}
+            <input readOnly type="text" value={this.state.display}/>
+
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      );
+    }
+  }
+
+export default Main
