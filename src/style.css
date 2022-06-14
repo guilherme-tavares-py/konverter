@@ -41,9 +41,9 @@ form {
 
     display: inline-block;
     position: relative;
-    left: 70%;
+    left: 50%;
     margin-top: 100px;
-
+    transform: translate(-50%);
 }
 
 select {
