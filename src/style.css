@@ -12,7 +12,7 @@ body {
 header {
     text-align: center;
     background-color: #1e5510;
-    padding: 15px;
+    padding: 1%;
     color: white;
     font-size: 30px;
     box-shadow: 0px 0px 20px black;
@@ -27,6 +27,7 @@ input {
     margin: 15px 15px 15px 0;
     border-radius: 5px;
     font-size: 18px;
+    text-align: center;
 }
 
 
@@ -62,6 +63,11 @@ select:hover {
     cursor: pointer;
 }
 
+select option {
+    padding: 40px;
+}
+
+
 
 #submit {
     width: 341px;
@@ -75,4 +81,8 @@ select:hover {
 
 #submit:hover {
     cursor: pointer;
+}
+#submit:active {
+    border: 1px groove white;
+  
 }

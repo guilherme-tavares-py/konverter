@@ -53,25 +53,25 @@ class Main extends React.Component {
       if (this.state.first_choice === "real") {
 
         if (this.state.second_choice === "dolar") {
-          this.setState({display: this.state.inputUser / this.state.dolar});
+          this.setState({display: (this.state.inputUser / this.state.dolar).toFixed(2)});
         } else if (this.state.second_choice === "euro") {
-          this.setState({display: this.state.inputUser / this.state.euro});
+          this.setState({display: (this.state.inputUser / this.state.euro).toFixed(2)});
         } else if (this.state.second_choice === "real") {
           this.setState({display: this.state.inputUser});
         }
       } else if (this.state.first_choice === "dolar") {
         if (this.state.second_choice === "real") {
-          this.setState({display: this.state.inputUser * this.state.dolar});
+          this.setState({display: (this.state.inputUser * this.state.dolar).toFixed(2)});
         } else if (this.state.second_choice === "euro") {
-          this.setState({display: this.state.inputUser * this.state.dolar / this.state.euro});
+          this.setState({display: (this.state.inputUser * this.state.dolar / this.state.euro).toFixed(2)});
         } else if (this.state.second_choice === "dolar") {
           this.setState({display: this.state.inputUser});
         }
       } else if (this.state.first_choice === "euro") {
         if (this.state.second_choice === "real") {
-          this.setState({display: this.state.inputUser * this.state.euro});
+          this.setState({display: (this.state.inputUser * this.state.euro).toFixed(2)});
         } else if (this.state.second_choice === "dolar") {
-          this.setState({display: this.state.inputUser * this.state.euro / this.state.dolar});
+          this.setState({display: (this.state.inputUser * this.state.euro / this.state.dolar).toFixed(2)});
         } else if (this.state.second_choice === "euro") {
           this.setState({display: this.state.inputUser});
         }
@@ -89,18 +89,18 @@ class Main extends React.Component {
           <label>
             <div>
             <select value={this.state.first_choice} onChange={this.firstChoice}>
-              <option value="real">Real</option>
-              <option value="euro">Euro</option>
-              <option value="dolar">Dólar</option>
+              <option value="real">BRL</option>
+              <option value="euro">EUR</option>
+              <option value="dolar">USD</option>
             </select>
             
             <input type="text" value={this.state.inputUser} onChange={text => this.handleText(text)}/>
             </div>
             <div>
             <select value={this.state.second_choice} onChange={this.secondChoice}>
-              <option value="real">Real</option>
-              <option value="euro">Euro</option>
-              <option value="dolar">Dólar</option>
+              <option value="real">BRL</option>
+              <option value="euro">EUR</option>
+              <option value="dolar">USD</option>
             </select>
 
             <input readOnly type="text" value={this.state.display}/>
