@@ -87,15 +87,16 @@ class Main extends React.Component {
         <form onSubmit={this.handleSubmit}>
           
           <label>
-
+            <div>
             <select value={this.state.first_choice} onChange={this.firstChoice}>
               <option value="real">Real</option>
               <option value="euro">Euro</option>
               <option value="dolar">Dólar</option>
             </select>
-
-            <input type="text" value={this.state.inputUser} onChange={text => this.handleText(text)}/>
             
+            <input type="text" value={this.state.inputUser} onChange={text => this.handleText(text)}/>
+            </div>
+            <div>
             <select value={this.state.second_choice} onChange={this.secondChoice}>
               <option value="real">Real</option>
               <option value="euro">Euro</option>
@@ -103,9 +104,9 @@ class Main extends React.Component {
             </select>
 
             <input readOnly type="text" value={this.state.display}/>
-
+            </div>
           </label>
-          <input type="submit" value="Submit" />
+          <input id="submit" type="submit" value="Submit" />
         </form>
       );
     }
