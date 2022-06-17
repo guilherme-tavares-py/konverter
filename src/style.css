@@ -125,6 +125,12 @@ footer {
     color: white;
 }
 
+@media screen and (max-height: 360px) {
+    footer {
+        display: none;
+    }
+}
+
 @media screen and (max-width: 360px) {
     form {
         margin-top: 50px;
